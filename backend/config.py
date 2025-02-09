@@ -1,6 +1,7 @@
 import os
 from dotenv import dotenv_values
-
+from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 
 # Path of top-level dir for this project
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -9,6 +10,9 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 path_to_env = os.path.abspath(os.path.join(BASEDIR, '.', '.env'))
 config = dotenv_values(path_to_env)
 
+
+db = SQLAlchemy()
+jwt = JWTManager()
 
 class Config(object):
     """
@@ -19,6 +23,9 @@ class Config(object):
     DEBUG = False
     TESTING = False
     SECRET_KEY = os.getenv("SECRET_KEY", default="12435")
+    JWT_SECRET_KEY = os.getenv("SECRET_KEY", default="your_jwt_secret_key")
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///users.db' 
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):
